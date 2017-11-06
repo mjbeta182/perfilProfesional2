@@ -33,10 +33,12 @@ public class ProcesarOferta extends HttpServlet {
         Oferta ofe = new Oferta();
         CrudOferta crof = new CrudOferta();
         String respuesta = null;
+        int rol = Integer.parseInt(request.getParameter("idrol"));
         
         try {
             
             //ofe.setIdOferta(Integer.parseInt(request.getParameter("txtIdOferta")));
+            
             
             if(request.getParameter("btnGuardar")!=null)
             {
@@ -72,16 +74,61 @@ public class ProcesarOferta extends HttpServlet {
                 ofe.setEdadMax(Integer.parseInt(request.getParameter("txtEdadMax")));
                 
                 crof.modificarOferta(ofe);
-                respuesta="<div class='alert alert-success alert-dismissable'><a href='#' class='close' data-dismiss='alert' aria-label='close'>&times;</a><strong style='color: black;'>¡Éxito!</strong> Registro modificado de forma exitosa.</div>";
+                //respuesta="<div class='alert alert-success alert-dismissable'><a href='#' class='close' data-dismiss='alert' aria-label='close'>&times;</a><strong style='color: black;'>¡Éxito!</strong> Registro modificado de forma exitosa.</div>";
             }else if(request.getParameter("btnEliminar")!=null)
             {
                 ofe.setIdOferta(Integer.parseInt(request.getParameter("txtIdOferta")));
                 crof.eliminarOferta(ofe);
                 respuesta="<div class='alert alert-success alert-dismissable'><a href='#' class='close' data-dismiss='alert' aria-label='close'>&times;</a><strong style='color: black;'>¡Éxito!</strong> Registro eliminado de forma exitosa.</div>";
+            } else if(request.getParameter("txtBuscar")!=null)
+            {
+                String criterio = request.getParameter("txtBuscar");
+                request.getSession().setAttribute("criterio", criterio);
+                crof.ofertaCriterio(criterio);
+                response.sendRedirect("oferta.jsp");
+            }else if(request.getParameter("btnDetalle")!=null)
+            {
+                String codigo = request.getParameter("codOferta");
+                request.getSession().setAttribute("codigo", codigo);
+                response.sendRedirect("ofertadetalle.jsp");
+            }else if(request.getParameter("btnNewIn")!=null)
+            {
+                String idoferta = request.getParameter("txtIdOferta");
+                String idusuario = request.getParameter("txtIdUsuario");
+                request.getSession().setAttribute("codigo", idoferta);//Posiblemente de error por estar repetida la variable global
+                request.getSession().setAttribute("idusuario", idusuario);
+                crof.insertarInscripcion(idoferta,idusuario);
+                response.sendRedirect("ofertadetalle.jsp");
+            }else if(request.getParameter("btnCanIn")!=null)
+            {
+                String idoferta = request.getParameter("txtIdOferta");
+                String idusuario = request.getParameter("txtIdUsuario");
+                request.getSession().setAttribute("codigo", idoferta);//Posiblemente de error por estar repetida la variable global
+                request.getSession().setAttribute("idusuario", idusuario);
+                crof.eliminarInscripcion(idoferta, idusuario);
+                response.sendRedirect("ofertadetalle.jsp");
+            }else if(request.getParameter("btnCandidatos")!=null)
+            {
+                response.sendRedirect("ofertaaplicantes.jsp");
             }
             
+            
             request.setAttribute("respuesta", respuesta);
-            response.sendRedirect("ofertasempresa.jsp");
+            switch (rol) {
+                case 1:
+                    response.sendRedirect("ofertasroot.jsp");
+                    break;
+                case 2:
+                    response.sendRedirect("ofertasempresa.jsp");
+                    break;
+                case 3:
+                    response.sendRedirect("oferta.jsp");
+                    break;
+                default:
+                    response.sendRedirect("oferta.jsp");
+                    break;
+            }
+            
      } catch (Exception e) {
          request.setAttribute("ERROR", e.toString());
      }

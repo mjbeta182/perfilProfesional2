@@ -91,12 +91,9 @@
     CrudOferta crof = new CrudOferta();
     String nombre = "";
     int codigo = 0;
-    int rol =0;
-    if (session.getAttribute("user").equals(null)){
-        response.sendRedirect("index.jsp");
-    }
+    int rol = 0;
 %>    
-<!--Este código de acá es para obtener y llenar el id del usuario-->
+    
     <div style="display: none;">
         <%= nombre = (String) session.getAttribute("user") %>
         <% codigo = crof.obtenerid(nombre);%>
@@ -104,7 +101,6 @@
         <input type="text" name="codUsu" id="codUsu" value="<%= codigo%>">
         <input type="text" name="idrol" id="idrol" value="<%= rol%>">
     </div>
-            
     <div class="container-fluid">
         <div class="row" style="width: 100%; position: fixed;z-index: 10;">
             <jsp:include page="plantilla/menu.jsp" />
@@ -236,7 +232,13 @@
                                     <div class="input-group">
                                         <span class="input-group-addon"><i class="glyphicon glyphicon-home" aria-hidden="true"></i></span>
                                         <select name="cmbEmpresa" id="dark" class="form-control" required="true">
-                                            <option value="<%= codigo%>"><%= nombre%></option>
+                                            <option value="0">.:Empresa:.</option>
+                                            <%
+                                                List<Empresa> lstEmpre = crempre.mostrarEmpresa();
+                                                for(Empresa empre:lstEmpre){
+                                            %>
+                                            <option value="<%=empre.getIdEmpresa()%>"><%=empre.getNombreEmpresa()%></option>
+                                            <%}%>
                                         </select>
                                 </div>
                             </div>
@@ -320,7 +322,9 @@
         <!--Tabla para mostrar registros-->  
         <div class="row ">
             <div class="col-md-10">
-            
+            <form>
+		<input id="buscar" type="text" placeholder="Busqueda" onkeyup="doSearch()" />
+            </form>
             </div>
             <!--<input type="text" name="search"  id="buscar" placeholder="Busqueda">-->
             <div class="col-md-2"> <a id="buttontbl" class="btn btn-primary pull-right" onclick="cargar('','','0','0','0','0','0','0','0','','0','0')"  href="" data-toggle="modal" data-target="#habilidad">Nuevo</a></div>
@@ -344,7 +348,7 @@
              </tr>
            </thead>
             <%
-             List<Oferta> lso = crof.ofertaEmpresa(codigo);
+             List<Oferta> lso = crof.mostrarOferta();
              for( Oferta o:lso){
            %>
            <tr>
@@ -360,18 +364,8 @@
                <td><%= o.getDescripcion()%></td>
                <td><%= o.getEdadMin()%></td>
                <td><%= o.getEdadMax()%></td>
-               <td id="colAccion" style="width: 15%;">
-                   <form action="procesarOferta">
-                       <div style="display: none;">
-                            <%= nombre = (String) session.getAttribute("user") %>
-                            <% codigo = crof.obtenerid(nombre);%>
-                            <% rol = crof.obtenerrol(codigo);%>
-                            <input type="text" name="codUsu" id="codUsu" value="<%= codigo%>">
-                            <input type="text" name="idrol" id="idrol" value="<%= rol%>">
-                        </div>
-                        <a   class="btn btn-primary" id="button" href="" data-toggle="modal" data-target="#habilidad" onclick="cargar(<%= o.getIdOferta()%>,'<%= o.getNombre()%>',<%= o.getArea().getIdArea()%>,'<%= o.getCargo().getIdCargo()%>','<%= o.getNivelExperiencia().getIdNivelExperiencia()%>','<%= o.getTipoContratacion().getIdTipoContratacion()%>','<%= o.getDepartamento().getIdDepto()%>','<%= o.getEmpresa().getIdEmpresa()%>','<%= o.getVacantes()%>','<%= o.getDescripcion()%>','<%= o.getEdadMin()%>','<%= o.getEdadMax()%>')" ><span class="glyphicon glyphicon-plus-sign"></span></a>
-                        <input type="submit" name="btnCandidatos" class="btn btn-primary" value="Candidatos">
-                   </form>
+               <td id="colAccion" style="width: 50px;">
+                   <a   class="btn btn-primary" id="button" href="" data-toggle="modal" data-target="#habilidad" onclick="cargar(<%= o.getIdOferta()%>,'<%= o.getNombre()%>',<%= o.getArea().getIdArea()%>,'<%= o.getCargo().getIdCargo()%>','<%= o.getNivelExperiencia().getIdNivelExperiencia()%>','<%= o.getTipoContratacion().getIdTipoContratacion()%>','<%= o.getDepartamento().getIdDepto()%>','<%= o.getEmpresa().getIdEmpresa()%>','<%= o.getVacantes()%>','<%= o.getDescripcion()%>','<%= o.getEdadMin()%>','<%= o.getEdadMax()%>')" ><span class="glyphicon glyphicon-plus-sign"></span></a>
                </td>
            </tr>
            <% } %>
