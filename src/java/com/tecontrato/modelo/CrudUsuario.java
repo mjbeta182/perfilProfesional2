@@ -221,4 +221,47 @@ public class CrudUsuario extends Conexion{
         return lst;
     }
     
+     public List<Candidato>obtenerDatos(int id) throws Exception
+    {
+        Conexion db = new Conexion();
+        Connection conexion = null;
+        ResultSet rs;
+        List<Candidato>lst=new ArrayList();
+        try 
+        {
+            conexion = db.getConnection();
+            String sql="select u.idusuario, c.idcandidato,c.nombre,c.profesion,c.iddepto,c.idgenero,c.nacionalidad,c.fechanacimiento,c.direccion,c.foto,d.iddepto,d.nombredepto,g.idgenero,g.genero from candidato c inner join departamento d on c.iddepto=d.iddepto inner join genero g on c.idgenero=g.idgenero inner join usuario u on c.idcandidato =u.idusuario  where c.idcandidato=?";
+            PreparedStatement pre = conexion.prepareCall(sql);
+            pre.setInt(1, id);
+            rs=pre.executeQuery();
+            while(rs.next())
+            {
+                Departamento d =  new Departamento();
+                d.setIdDepto(rs.getInt("iddepto"));
+                d.setNombreDepto(rs.getString("nombredepto"));
+                
+                Genero g = new Genero();
+                g.setIdGenero(rs.getInt("idgenero"));
+                g.setGenero(rs.getString("genero"));
+                
+                Candidato c =  new Candidato();
+                c.setIdCandidato(rs.getInt("idcandidato"));
+                c.setNombre(rs.getString("nombre"));
+                c.setDireccion(rs.getString("direccion"));
+                c.setFechaNacimiento(rs.getString("fechanacimiento"));
+                c.setFoto(rs.getString("foto"));
+                c.setProfesion(rs.getString("profesion"));
+                c.setDepto(d);
+                c.setGenero(g);
+                c.setNacionalidad(rs.getString("nacionalidad"));
+                lst.add(c);
+
+            }
+        } 
+        catch (Exception e) 
+        {
+            throw e;
+        }
+        return lst;
+    }
 }

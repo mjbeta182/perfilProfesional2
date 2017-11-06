@@ -1,6 +1,7 @@
 package com.tecontrato.modelo;
 
 import com.tecontrato.conexion.Conexion;
+import com.tecontrato.utilidades.Utilidades;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -257,6 +258,44 @@ public class CrudOferta extends Conexion{
         return lst;
     }
     
+    public List<Candidato> seguirCriterio(String criterio) throws Exception
+    {
+        Conexion db = new Conexion();
+        Connection conexion = null;
+        ResultSet res;
+        List<Candidato>lst= new ArrayList();
+        try 
+        {
+            conexion = db.getConnection();
+            String sql="select candidato.idcandidato,candidato.profesion, departamento.iddepto, departamento.nombredepto, genero.idgenero, genero.genero, nombre, nacionalidad, fechanacimiento,direccion, foto from candidato  "
+                       +"inner join departamento on candidato.iddepto=departamento.iddepto "
+                       +"inner join genero on candidato.idgenero=genero.idgenero where upper (candidato.nombre) like upper('%"+criterio+"%') or upper(candidato.profesion) like upper('%"+criterio+"%') order by candidato.idcandidato  ";
+            PreparedStatement pre = conexion.prepareCall(sql);
+            res=pre.executeQuery();
+            while(res.next())
+            {
+                
+                Departamento depto=new Departamento();
+                depto.setIdDepto(res.getInt("iddepto"));
+                depto.setNombreDepto(res.getString("nombredepto"));
+                
+                Genero gen = new Genero();
+                gen.setIdGenero(res.getInt("idgenero"));
+                gen.setGenero(res.getString("genero"));
+                
+                Candidato can = new Candidato( res.getInt("idcandidato"),depto,gen, res.getString("nombre"),res.getString("nacionalidad"),Utilidades.invertirFechas(res.getString("fechanacimiento"),"yyyy-mm-dd","dd-mm-yyyy"),res.getString("direccion"), res.getString("foto"),res.getString("profesion"));
+                lst.add(can);   
+                
+            }
+        } 
+        catch (Exception e) 
+        {
+            throw e;
+        }
+        return lst;
+    }
+    
+    
     public List<Oferta>ofertaEmpresa(int codigo) throws Exception
     {
         Conexion db = new Conexion();
@@ -460,6 +499,49 @@ public class CrudOferta extends Conexion{
         }
         return lst;
     }
+   
+    public List<Candidato> seguirdetalle(String codigo) throws Exception
+    {
+        Conexion db = new Conexion();
+        Connection conexion = null;
+        ResultSet res;
+        List<Candidato>lst= new ArrayList();
+        try 
+        {
+            conexion = db.getConnection();
+            String sql="select candidato.idcandidato,candidato.profesion, departamento.iddepto, departamento.nombredepto, genero.idgenero, genero.genero, nombre, nacionalidad, fechanacimiento,direccion, foto from candidato  "
+                       +"inner join departamento on candidato.iddepto=departamento.iddepto "
+                       +"inner join genero on candidato.idgenero=genero.idgenero where candidato.idcandidato="+codigo;
+            PreparedStatement pre = conexion.prepareCall(sql);
+            res=pre.executeQuery();
+            while(res.next())
+            {
+                
+                Departamento depto=new Departamento();
+                depto.setIdDepto(res.getInt("iddepto"));
+                depto.setNombreDepto(res.getString("nombredepto"));
+                
+                Genero gen = new Genero();
+                gen.setIdGenero(res.getInt("idgenero"));
+                gen.setGenero(res.getString("genero"));
+                
+                Candidato can = new Candidato( res.getInt("idcandidato"),depto,gen, res.getString("nombre"),res.getString("nacionalidad"),Utilidades.invertirFechas(res.getString("fechanacimiento"),"yyyy-mm-dd","dd-mm-yyyy"),res.getString("direccion"), res.getString("foto"),res.getString("profesion"));
+                lst.add(can);   
+                
+            }
+        } 
+        catch (Exception e) 
+        {
+            throw e;
+        }
+        return lst;
+       
+    }
+    
+    
+    
+    
+    
     
     public int obtenerrol(int codigo) throws Exception
     {
@@ -576,4 +658,69 @@ public class CrudOferta extends Conexion{
             throw e;
         }
     }
+    
+        public void insertarSeguir(String idseguir, String idusuario) throws Exception
+    {
+        Conexion db = new Conexion();
+        Connection conexion = null;
+        try 
+        {
+            conexion = db.getConnection();
+            String sql="INSERT INTO seguircandidato( " +
+                       "idcandidatofollower, idcandidatoseguir) " +
+                       "VALUES ("+idusuario+","+idseguir+");";
+            PreparedStatement pre = conexion.prepareStatement(sql);
+            pre.executeUpdate();
+        } 
+        catch (Exception e) 
+        {
+            throw e;
+        }
+    }
+    
+    public void eliminarSeguir(String idseguir, String idusuario) throws Exception
+    {
+        Conexion db = new Conexion();
+        Connection conexion = null;
+        try 
+        {
+            conexion = db.getConnection();
+            String sql="DELETE FROM seguircandidato " +
+                       "WHERE idcandidatofollower="+idusuario+" and idcandidatoseguir="+idseguir;
+            PreparedStatement pre = conexion.prepareStatement(sql);
+            pre.executeUpdate();
+        } 
+        catch (Exception e) 
+        {
+            throw e;
+        }
+    }
+    public int verRelacionSeguir(int idusuario, String idseguir) throws Exception
+    {
+        Conexion db = new Conexion();
+        Connection conexion = null;
+        ResultSet rs;
+        int resp = 0;
+         try 
+         {  
+            conexion = db.getConnection();
+            String sql="select count(idcandidatofollower) as resp from seguircandidato where idcandidatofollower="+idusuario+" and idcandidatoseguir="+idseguir;
+            PreparedStatement pst = conexion.prepareCall(sql);
+            rs = pst.executeQuery();
+            while(rs.next())
+            {
+              resp = rs.getInt("resp");
+            } 
+        } catch (Exception e) {
+             throw e;
+        }
+        finally
+         {
+            
+         }
+        return resp;
+    }
+    
+    
+    
 }

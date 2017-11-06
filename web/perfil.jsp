@@ -736,9 +736,10 @@
                         <input type="hidden" name="txtIdRol" value="<%=rol%>"><!--Aqui se debe modificar rol-->
 
                         <div class="form-group ">
-                            <label for="foto" class="cols-sm-2 control-label">Foto</label>
-                            <img src="imagenes/arena.png" alt="bandera" class="bandera" id="banderaActual"  >
-                            <div class="cols-sm-10">    
+                            <div class="cols-sm-10">  
+                                <div id="profile-userpic" style="margin-bottom: 20px" >
+                                    <img src="imagenes/arena.png" alt="bandera" class="bandera img-responsive" id="banderaActual" style="margin-top: 15px;margin: auto;width: 120px;height: 120px; border-radius: 50%;">
+                                </div>
                                 <div class="input-group image-preview" style="text-align: right;" >
                                 <!-- image-preview-filename -->
                                 <span class="input-group-addon"><i class="glyphicon glyphicon-picture" aria-hidden="true"></i></span>
@@ -798,7 +799,6 @@
                         <li style="border-style: none;">
                         <div id="profile-userpic">
                             <img id="profile" src="imagenes/fotos/<%=foto%>" class="img-responsive" style="margin-top: 15px;margin-bottom: 15px;">
-                           
                         </div>
                         </li>
                          <li style="border-style: none;">
@@ -816,7 +816,7 @@
                             Subir foto<span class=" pull-right hidden-xs showopacity glyphicon glyphicon-camera"></span></a></li>   
                         <% } %>
                         <li><a href="#">Aplicación de trabajo<span class="badge pull-right">3</span></a></li>
-                        <li><a href="#">Siguiento<span class="badge pull-right">5</span></a></li>
+                        <li><a href="#">Siguiendo<span class="badge pull-right">5</span></a></li>
                         <li ><a href="perfil.jsp">Actualizar curriculum<span style="font-size:16px;" class="pull-right hidden-xs showopacity glyphicon glyphicon-edit"></span></a></li>
                         <li ><a href="curriculum.jsp">Ver Curriculum<span style="font-size:16px;" class="pull-right hidden-xs showopacity glyphicon glyphicon-list-alt"></span></a></li>
                         <li ><a href="#"><form action='logoutcontroller' method='post'>Cerrar Sesión<button id='buttonL'  style=" border-radius: 5px;margin-top: -4px;" class="pull-right" ><span class='glyphicon glyphicon-off ' style="color: whitesmoke" ></span></button></form></a></li>

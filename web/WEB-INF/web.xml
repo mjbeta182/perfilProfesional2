@@ -22,6 +22,10 @@
             <file-size-threshold>1048576</file-size-threshold>
         </multipart-config>
     </servlet>
+    <servlet>
+        <servlet-name>ProcesarSeguirUsuario</servlet-name>
+        <servlet-class>com.tecontrato.controlador.ProcesarSeguirUsuario</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>ProcesarCandidato</servlet-name>
         <url-pattern>/procesarCandidato</url-pattern>
@@ -189,6 +193,10 @@
     <servlet-mapping>
         <servlet-name>ProcesarEmpleado</servlet-name>
         <url-pattern>/procesarEmpleado</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>ProcesarSeguirUsuario</servlet-name>
+        <url-pattern>/procesarSeguirUsuario</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

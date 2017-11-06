@@ -173,7 +173,7 @@ public class ProcesarCandidato extends HttpServlet {
                                     respuesta="<div class='alert alert-danger alert-dismissable alerta'><a href='#' class='close' data-dismiss='alert' aria-label='close'>&times;</a><strong style='color: black;'>¡Oops!</strong> Ocurrió un error.</div>";
                                 }
                             }else{
-                                respuesta="<div class='alert alert-danger alert-dismissable alerta'><a href='#' class='close' data-dismiss='alert' aria-label='close'>&times;</a><strong style='color: black;'>¡Oops!</strong> Ocurrió un error.</div>";
+                                respuesta="<div class='alert alert-danger alert-dismissable alerta'><a href='#' class='close' data-dismiss='alert' aria-label='close'>&times;</a><strong style='color: black;'>¡Oops!</strong> Ocurrió un error .</div>";
                             }
                             
                         }else{
@@ -231,7 +231,7 @@ public class ProcesarCandidato extends HttpServlet {
         }
         else if(txtIdRol.equals("1")){
 
-            request.getRequestDispatcher("candidatoAdmin.jsp").forward(request, response);
+            response.sendRedirect("candidatoAdmin.jsp");
             
         } 
 

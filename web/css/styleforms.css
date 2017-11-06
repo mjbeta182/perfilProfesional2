@@ -372,18 +372,14 @@ input[type='text'],input[type="email"],input[type="number"],input[type="password
 }
 
 /*Profile menu*/
-#profile-userpic #profile{
+#profile-userpic #profile {
   float: none;
   margin: 0 auto;
+  text-align: center;
   width: 120px;
   height: 120px;
   -webkit-border-radius: 50% !important;
   -moz-border-radius: 50% !important;
   border-radius: 50% !important;
-}
-
-#logo{
-   padding: 0px; 
-      
 }
 
