@@ -14,7 +14,7 @@
         <jsp:include page="plantilla/libs.jsp"/>
         <title>Oferta</title>
     </head>
-    <body class="bodyFormulario">
+    <body class="bodyFormulario" id="home">
     <%
         CrudOferta crof = new CrudOferta();
         
@@ -125,7 +125,13 @@
                                     <td> 
                                         <input name="txtIdOferta" id="txtIdOferta" type="text" value="<%= e.getIdOferta()%>" style="display: none;">
                                         <input name="txtIdUsuario" id="txtIdUsuario" type="text" value="<%= idusuario %>" style="display: none;">
-                                        <img src="imagenes/empresa.png" title="Empresas" width="115px">
+                                        <%
+                                            CrudEmpresa cemp = new CrudEmpresa();
+                                             List<Empresa> ls = cemp.obtenerEmpresas(e.getEmpresa().getIdEmpresa());
+                                            for(Empresa emp:ls){
+                                        %>
+                                           <img src="imagenes/fotos/<%=emp.getFoto() %>" title="Empresa" width="120px" height="120px"  style="border-radius: 50%;">
+                                         <%}%>
                                     </td>
                                     <td><center>
                                         <h3><%=e.getEmpresa().getNombreEmpresa()%></h3>

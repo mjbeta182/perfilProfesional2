@@ -214,12 +214,15 @@
                             </div>
                             <br>
                    
-                                <div id="botones">
-                                    <button type="submit" data-toggle="confirmation" name="btnModificar" class="btn btn-warning fa fa-undo" data-btn-ok-label="Si" data-btn-ok-icon="glyphicon glyphicon-share-alt"
-                                    data-btn-ok-class="btn-success" data-btn-cancel-label="No" data-btn-cancel-icon="glyphicon glyphicon-ban-circle" data-btn-cancel-class="btn-danger"
-                                    data-title="¿Está seguro de modificar el registro?" data-content="Esto podría ser peligroso"> Modificar</button>
-                                    <button type="reset"  class="btn btn-primary fa fa-undo" title="Limpiar campos"></button>  
-                                </div>
+                            <div id="botones">
+                                <button type="submit" data-toggle="confirmation" name="btnModificarMod" class="btn btn-warning fa fa-undo" data-btn-ok-label="Si" data-btn-ok-icon="glyphicon glyphicon-share-alt"
+                                data-btn-ok-class="btn-success" data-btn-cancel-label="No" data-btn-cancel-icon="glyphicon glyphicon-ban-circle" data-btn-cancel-class="btn-danger"
+                                data-title="¿Está seguro de guardar el registro?" > Modificar</button>
+                                <button type="submit" data-toggle="confirmation" name="btnEliminar" class="btn btn-danger fa fa-close" data-btn-ok-label="Si" data-btn-ok-icon="glyphicon glyphicon-share-alt"
+                                data-btn-ok-class="btn-success" data-btn-cancel-label="No" data-btn-cancel-icon="glyphicon glyphicon-ban-circle" data-btn-cancel-class="btn-danger"
+                                data-title="¿Está seguro de eliminar el registro?" > Eliminar</button>
+                                <button class="btn btn-primary" data-dismiss="modal" >Cancelar</button>  
+                            </div>
                             </div>
                             <div class="col-md-2" ></div>
                         </div>
@@ -227,7 +230,8 @@
                 </form> 
                 <!--End Formulario-->
             </div>
-        </div>   
+        </div>            
+                                
     
     <div style="margin-top: 60px;">
         ${respuesta}
@@ -238,7 +242,7 @@
          <h3><strong>CANDIDATO</strong></h3>
         <!--Tabla para mostrar registros-->  
         <div class="row ">
-            <div class="col-md-10"><input type="text" name="search"  id="buscar" placeholder="Busqueda"></div><div class="col-md-2"> <a id="buttontbl" class="btn btn-primary pull-right" onclick="cargar()"  href="" data-toggle="modal" data-target="#habilidad">Nuevo</a></div>
+            <div class="col-md-10"><input type="text" name="search"  id="buscar" placeholder="Busqueda"></div><div class="col-md-2"> <a id="buttontbl" class="btn btn-primary pull-right" href="usuarioCandidato.jsp" >Crear usuario</a></div>
         </div>
         <table class="table active " id="tblMostrar" >
             <thead >

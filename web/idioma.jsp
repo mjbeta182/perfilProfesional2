@@ -60,14 +60,7 @@
                                     <div class="main-center">
 
                                         <h3><strong>IDIOMA</strong></h3>
-
-                                        <label for="codigo" class="cols-sm-2 control-label">C&oacute;digo</label>
-                                        <div class="cols-sm-10">
-                                            <div class="input-group">
-                                                <span class="input-group-addon"><i class="fa fa-user fa" aria-hidden="true" ></i></span>
-                                                <input type="text" class="form-control" name="txtCodigo" id="txtCodigo"  placeholder="Código" />
-                                            </div>
-                                        </div>
+                                        <input type="hidden" class="form-control" name="txtCodigo" id="txtCodigo"  placeholder="Código" />
 
                                         <br>
                                         <div class="form-group">
@@ -80,10 +73,6 @@
 
                                             </div>
                                             </div>
-                                        
-                                      
-                                        
-                                        
                                         
                                                 <div id="botones">
                                                     <button type="submit" name="btnGuardar" class="btn btn-primary glyphicon glyphicon-floppy-disk"> Guardar</button>

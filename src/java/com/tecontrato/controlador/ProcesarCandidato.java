@@ -128,69 +128,69 @@ public class ProcesarCandidato extends HttpServlet {
         
         if(request.getParameter("btnModFoto")!=null){
 
-                try {
-                    
-                        can.setIdCandidato(Integer.parseInt(request.getParameter("txtIdCandidato")));
+            try {
 
-                        if (!request.getParameter("txtarchivo").equals("")) 
-                        {    
-                            String nombreImagen = request.getParameter("txtarchivo");  //Recupero nombre de la imagen del input file
-                            can.setFoto(nombreImagen);
-                            Part archivo = request.getPart("foto");
-                     
-                            if (nombreImagen.endsWith(".jpg") || nombreImagen.endsWith(".png")) 
-                            {
-                                Integer posicion = 0;
-                                String direccion2 = request.getSession().getServletContext().getRealPath("imagenes");
-                                posicion = direccion2.indexOf("\\build\\web");
-                                direccion2 = direccion2.substring(0,posicion);
-                                String direccion = direccion2+"/web/imagenes/fotos";
-                                File imagenVieja = new File(direccion + "/" + request.getParameter("modViejaBandera"));
-                                
+                    can.setIdCandidato(Integer.parseInt(request.getParameter("txtIdCandidato")));
 
-                                
-                                resultado = crca.modificarFoto(can);
-                                if (resultado == 1) 
-                                {
-                                    respuesta="<div class='alert alert-success alert-dismissable alerta'><a href='#' class='close' data-dismiss='alert' aria-label='close'>&times;</a><strong style='color: black;'>¡Éxito!</strong> Registro modificado de forma exitosa.</div>";
-                                    posicion = 0;
-                                    direccion2 = request.getSession().getServletContext().getRealPath("imagenes");
-                                    posicion = direccion2.indexOf("\\build\\web");
-                                    direccion2 = direccion2.substring(0,posicion);
-                                    direccion = direccion2+"/web/imagenes/fotos";
-                                    InputStream entradaImagen = archivo.getInputStream();
-                                    File file = new File(direccion + "/" + nombreImagen);
-                                    FileOutputStream salidaImagen = new FileOutputStream(file);
-                                    int dato = entradaImagen.read();
-                                    while (dato != -1) 
-                                    {                
-                                         salidaImagen.write(dato);
-                                         dato = entradaImagen.read();
-                                    }
-                                    entradaImagen.close();
-                                    salidaImagen.close();
-                                }else{
-                                    respuesta="<div class='alert alert-danger alert-dismissable alerta'><a href='#' class='close' data-dismiss='alert' aria-label='close'>&times;</a><strong style='color: black;'>¡Oops!</strong> Ocurrió un error.</div>";
-                                }
-                            }else{
-                                respuesta="<div class='alert alert-danger alert-dismissable alerta'><a href='#' class='close' data-dismiss='alert' aria-label='close'>&times;</a><strong style='color: black;'>¡Oops!</strong> Ocurrió un error .</div>";
-                            }
-                            
-                        }else{
-                            can.setFoto("userdefault.png");
+                    if (!request.getParameter("txtarchivo").equals("")) 
+                    {    
+                        String nombreImagen = request.getParameter("txtarchivo");  //Recupero nombre de la imagen del input file
+                        can.setFoto(nombreImagen);
+                        Part archivo = request.getPart("foto");
+
+                        if (nombreImagen.endsWith(".jpg") || nombreImagen.endsWith(".png")) 
+                        {
+                            Integer posicion = 0;
+                            String direccion2 = request.getSession().getServletContext().getRealPath("imagenes");
+                            posicion = direccion2.indexOf("\\build\\web");
+                            direccion2 = direccion2.substring(0,posicion);
+                            String direccion = direccion2+"/web/imagenes/fotos";
+                            File imagenVieja = new File(direccion + "/" + request.getParameter("modViejaBandera"));
+
+
+
                             resultado = crca.modificarFoto(can);
                             if (resultado == 1) 
                             {
                                 respuesta="<div class='alert alert-success alert-dismissable alerta'><a href='#' class='close' data-dismiss='alert' aria-label='close'>&times;</a><strong style='color: black;'>¡Éxito!</strong> Registro modificado de forma exitosa.</div>";
-
+                                posicion = 0;
+                                direccion2 = request.getSession().getServletContext().getRealPath("imagenes");
+                                posicion = direccion2.indexOf("\\build\\web");
+                                direccion2 = direccion2.substring(0,posicion);
+                                direccion = direccion2+"/web/imagenes/fotos";
+                                InputStream entradaImagen = archivo.getInputStream();
+                                File file = new File(direccion + "/" + nombreImagen);
+                                FileOutputStream salidaImagen = new FileOutputStream(file);
+                                int dato = entradaImagen.read();
+                                while (dato != -1) 
+                                {                
+                                     salidaImagen.write(dato);
+                                     dato = entradaImagen.read();
+                                }
+                                entradaImagen.close();
+                                salidaImagen.close();
                             }else{
-
                                 respuesta="<div class='alert alert-danger alert-dismissable alerta'><a href='#' class='close' data-dismiss='alert' aria-label='close'>&times;</a><strong style='color: black;'>¡Oops!</strong> Ocurrió un error.</div>";
                             }
+                        }else{
+                            respuesta="<div class='alert alert-danger alert-dismissable alerta'><a href='#' class='close' data-dismiss='alert' aria-label='close'>&times;</a><strong style='color: black;'>¡Oops!</strong> Ocurrió un error .</div>";
                         }
-                } catch (Exception e) {
-                    out.println(e);
-                }
+
+                    }else{
+                        can.setFoto("userdefault.png");
+                        resultado = crca.modificarFoto(can);
+                        if (resultado == 1) 
+                        {
+                            respuesta="<div class='alert alert-success alert-dismissable alerta'><a href='#' class='close' data-dismiss='alert' aria-label='close'>&times;</a><strong style='color: black;'>¡Éxito!</strong> Registro modificado de forma exitosa.</div>";
+
+                        }else{
+
+                            respuesta="<div class='alert alert-danger alert-dismissable alerta'><a href='#' class='close' data-dismiss='alert' aria-label='close'>&times;</a><strong style='color: black;'>¡Oops!</strong> Ocurrió un error.</div>";
+                        }
+                    }
+            } catch (Exception e) {
+                out.println(e);
+            }
         }  
                     
          //Proceso y validacion para boton eliminar          
@@ -207,6 +207,7 @@ public class ProcesarCandidato extends HttpServlet {
                 out.println(e);
             }
          }
+        
         if(request.getParameter("btnEliminarFoto")!=null){
             try {
                can.setIdCandidato(Integer.parseInt(request.getParameter("txtIdCandidato")));

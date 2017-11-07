@@ -8,7 +8,6 @@
 <%@page import="java.util.List"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
-
 <%
     CrudUsuario cu = new CrudUsuario();
     CrudCandidato ccan = new CrudCandidato();
@@ -16,13 +15,15 @@
     String registrarse   ="";
     String usuario       ="";
     String gestionar     ="";
-    String consultas     ="";
     String reportes      ="";
     String cuenta        ="";
+    String ofertas       ="none";
+    String seguir        ="none";
+    String perfil        ="";
     String curriculum    ="";
     String dir           ="";
     String cerrar        ="";
-    String close         ="";
+    String close         ="none";
     String name          ="";
     String foto          ="userdefault.png";
     String nombre        ="";
@@ -44,48 +45,44 @@
              }
             rol =(Integer) request.getSession().getAttribute("valor");
             if(request.getSession().getAttribute("valor").equals(1)){
-                 gestionar="";
-            
+                ofertas    = "none";
+                seguir     = "none";
+                perfil     = "none";
+                ofertas    = "none";
+                seguir     = "none";
             }else if(request.getSession().getAttribute("valor").equals(2) ){
-                iniciarsesion="none";
-                registrarse="none";
-                usuario="none";
-                gestionar="none";
-                consultas="none";
-                reportes="none";
-                curriculum="none";
-            
+                usuario     = "none";
+                gestionar   = "none";
+                reportes    = "none";
             }else if(request.getSession().getAttribute("valor").equals(3)){ 
-                iniciarsesion="none";
-                registrarse="none";
-                usuario="none";
-                gestionar="none";
-                consultas="none";
-                reportes="none";
-                dir="perfil.jsp";
+                usuario     = "none";
+                gestionar   = "none";
+                reportes    = "none";
+                dir         = "perfil.jsp";
+                ofertas     ="";
+                seguir      ="";
                
             }else{
                 response.sendRedirect("index.jsp");
-                usuario="none";
-                gestionar="none";
-                consultas="none";
-                reportes ="none";
-                cuenta  ="none";
-                curriculum="none";
-                close="none";
-                registrarse="";
-                iniciarsesion="";
+                usuario     = "none";
+                gestionar   = "none";
+                reportes    = "none";
+                cuenta      = "none";
+                curriculum  = "none";
+                close       = "none";
+                registrarse = "";
+                iniciarsesion= "";
             }
         } else {
             response.sendRedirect("index.jsp");
-            usuario="none";
-            gestionar="none";
-            consultas="none";
-            reportes ="none";
-            cuenta  ="none";
-            curriculum="none";
-            registrarse="";
-            iniciarsesion="";
+                usuario     = "none";
+                gestionar   = "none";
+                reportes    = "none";
+                cuenta      = "none";
+                curriculum  = "none";
+                close       = "none";
+                registrarse = "";
+                iniciarsesion= "";
         }
     }
 %>
@@ -103,15 +100,15 @@
             <li class='has-sub' style="z-index:2;display: <%=usuario %>;"><a href='#'><span>Usuarios</span></a>
                <ul>
                    <li><a href='empleadoAdmin.jsp'><span>Empleado</span></a></li>
-                   <li class="has-sub"><a href='candidatoAdmin.jsp'><span>Candidato</span></a>
-                       <ul>
+                   <li class=""><a href='candidatoAdmin.jsp'><span>Candidato</span></a>
+                      <!-- <ul>
                             <li><a href='#'><span>Curriculums</span></a></li>
-                       </ul>
+                       </ul>-->
                    </li>
-                  <li class="has-sub"><a href='empresaAdmin.jsp'><span>Empresa</span></a>
-                        <ul>
+                  <li class=""><a href='empresaAdmin.jsp'><span>Empresa</span></a>
+                        <!--<ul>
                             <li><a href='#'><span>Ofertas</span></a></li>
-                        </ul>
+                        </ul>-->
                   </li>
                </ul>
             </li>
@@ -124,14 +121,20 @@
                   <li><a href='area.jsp'><span>Área</span></a></li>
                </ul>
             </li>
-            <li style="display:<%=reportes %>; "><a href='#'><span>Reportes</span></a></li>
-                        <li  style="z-index: 1;display: <%=curriculum %>;"><a href='<%=dir%>'><span><%=nombre %></span></a></li>
-
-            <li style="display: <%=close%>;  padding-right: 20px;" class="pull-right"><% out.print(cerrar); %></li>          
-            
+            <li class="has-sub" style="display:<%=reportes %>; "><a href='#' ><span>Reportes</span></a>
+                <ul >
+                  <li ><a href='#' >
+                        <iframe style="width: 100%;margin: 0px;padding: 0px; border: none; " src="reportes/reportes.xhtml">
+                        </iframe></a>
+                  </li>
+               </ul>
+            </li>
+            <li  style="z-index: 1;display: <%=curriculum %>;"><a href='<%=dir%>'><span><%=nombre %></span></a></li>
+            <li style="display:<%=ofertas %>; "><a href='oferta.jsp'><span>Ofertas</span></a></li>
+            <li style="display:<%=seguir %>; "><a href='seguir.jsp'><span>Candidatos</span></a></li>
+            <li style="display: <%=close%>;  padding-right: 20px;" class="pull-right"><% out.print(cerrar); %></li>                      
         </ul>
          
     </div>
 
 <!--Fin de menú-->
-

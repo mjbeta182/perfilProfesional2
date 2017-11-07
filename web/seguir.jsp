@@ -85,7 +85,7 @@
                 
                 <div class="media well" style="margin-left: 20px;">
                 <div class="col-md-2">
-                    <img src="imagenes/fotos/<%=e.getFoto() %>" title="Candidatos" width="115px">
+                    <img src="imagenes/fotos/<%=e.getFoto() %>" title="Candidatos" width="120px" height="120px"  style="border-radius: 50%;">
                 </div>
                 <div class="col-md-10 " style="padding-left: 10%;">
                     <form action="procesarSeguirUsuario">

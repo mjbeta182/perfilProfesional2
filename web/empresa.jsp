@@ -14,7 +14,6 @@
         <jsp:include page="plantilla/libs.jsp"/>
         <title>Empresa</title>
         <script Language='JavaScript'>
-          
           $(document).ready(function(){
               $('.phone').mask('(000)0000-0000');
           }); 
@@ -26,8 +25,14 @@
                 CrudEmpresa cemp = new CrudEmpresa();
                 HttpSession sess = request.getSession(true); //use false to use the existing session
                 String idu = (String) sess.getAttribute("txtIdUsuario");
+                int rol = 0;
                 if (session.getAttribute("user") != null){
+                    rol =(Integer) request.getSession().getAttribute("valor");
+                 if(rol==1){
+                    
+                }else{
                     response.sendRedirect("index.jsp");
+                }
                 }
             %> 
             <div class="container-fluid">
@@ -40,7 +45,7 @@
                 <div class="row main">
                     <div class="main-login main-center" style="margin-top: 25px;">
                             <h3><strong>EMPRESA</strong></h3>
-                            <form class="" method="GET" action="procesarEmpresa">
+                            <form  method="post" action="procesarEmpresa" enctype="multipart/form-data" >
                                     <div class="form-group">
                                             <label for="txtNombreEmpresa" class="cols-sm-2 control-label">Nombre</label>
                                             <div class="cols-sm-10">
@@ -54,7 +59,7 @@
                                     <div class="form-group">
                                             <div class="cols-sm-10">
                                                     <div class="input-group">
-                                                            <input type="hidden" class="form-control" name="txtIdEmpresa" id="txtIdEmpresa"  placeholder="Código" readonly="true" value="<%=idu %>"/>
+                                                            <input type="text" class="form-control" name="txtIdEmpresa" id="txtIdEmpresa"  placeholder="Código" readonly="true" value="<%=idu %>"/>
                                                     </div>
                                             </div>
                                     </div>
@@ -96,7 +101,7 @@
                                             <div class="cols-sm-10">
                                                     <div class="input-group">
                                                             <span class="input-group-addon"><i class="glyphicon glyphicon-earphone" aria-hidden="true"></i></span>
-                                                            <input type="text" class="form-control phone" name="txtTelefono" id="txtTelefono" required="true"/>
+                                                            <input type="text" class="form-control phone" name="txtTelefono" id="txtTelefono" placeholder="(503)0000-0000" required="true"/>
                                                     </div>
                                             </div>
                                     </div>

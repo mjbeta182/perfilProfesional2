@@ -35,9 +35,18 @@
             CrudCandidato ccan=new CrudCandidato(); 
             HttpSession sess = request.getSession(true); //use false to use the existing session
             String idu = (String) sess.getAttribute("txtIdUsuario");
+            int rol = 0;
             if (session.getAttribute("user") != null){
-                response.sendRedirect("index.jsp");
+                
+                 rol =(Integer) request.getSession().getAttribute("valor");
+                 if(rol==1){
+                    
+                }else {
+                    response.sendRedirect("index.jsp");
+                }
             }
+            
+            
         %>
         <div class="container-fluid">
         <div class="row" style="width: 100%; position: fixed;z-index: 10;">

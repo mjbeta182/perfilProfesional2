@@ -21,6 +21,16 @@ public class Empresa {
     public Empresa() {
     }
 
+    public Empresa(int idEmpresa, String actividad, String descripcion, String email, String telefono, String nombreEmpresa, String foto) {
+        this.idEmpresa = idEmpresa;
+        this.actividad = actividad;
+        this.descripcion = descripcion;
+        this.email = email;
+        this.telefono = telefono;
+        this.nombreEmpresa = nombreEmpresa;
+        this.foto = foto;
+    }
+
     public Empresa(int idEmpresa, String actividad, String descripcion, String email, String telefono, String nombreEmpresa) {
         this.idEmpresa = idEmpresa;
         this.actividad = actividad;
@@ -29,6 +39,17 @@ public class Empresa {
         this.telefono = telefono;
         this.nombreEmpresa = nombreEmpresa;
     }
+
+    public Empresa(int idEmpresa, String foto) {
+        this.idEmpresa = idEmpresa;
+        this.foto = foto;
+    }
+
+    public Empresa(String foto) {
+        this.foto = foto;
+    }
+
+    
 
     public String getFoto() {
         return foto;

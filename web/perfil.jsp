@@ -157,6 +157,9 @@
         </style>
 
     <script>
+        $(document).ready(function(){
+              $('.phone').mask('(000)0000-0000');
+          }); 
     function cargarIdioma(idioma,nivel){
         $('#cmbIdioma').val(idioma);
         jQuery("input:radio[name=nivelIdioma][value="+nivel+"]").attr('checked',true);
@@ -254,6 +257,9 @@
             }
            
             rol =(Integer) request.getSession().getAttribute("valor");
+            if(rol==1){
+                response.sendRedirect("candidatoAdmin.jsp");
+            }
         }else{
             response.sendRedirect("index.jsp");
         }
@@ -637,7 +643,64 @@
         </div>
     </div><!--End modal-->
     
-    
+    <!--Formulario Habilidad-->
+    <div class="modal fade" id="habilidad" tabindex="-1" role="dialog" aria-labelledby="contactLabel" aria-hidden="true">
+        <div class="modal-dialog"  id="modal-dialog">
+            <div class="panel panel-primary" id="panel-primary">
+                <div class="panel-heading" id="panel-heading" >
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                    <h4 class="panel-title" id="contactLabel">TeContrato.com</h4>
+                </div>
+                 <!--Formulario-->
+                <form action="procesarCvHabilidad" method="get" name="frmHabilidad" >
+                <div class="modal-body" id="modalBody">               
+                    <div class="main-center">
+                        <h3><strong>HABILIDAD</strong></h3>
+                        
+                        <input type="hidden" name="txtIdCurriculum" value="<%=idcv%>"><!--Aqui idCurriculum-->
+                        <input type="hidden" name="txtIdRol" value="<%=rol%>"><!--Aqui se debe modificar rol-->
+                        <input type="hidden" name="valoracion" id="valoracion" ><!--Aqui se debe modificar rol-->
+                       <div class="form-group ">
+                            <div class="cols-sm-10">
+                                <div class="input-group"  id="select-dark">
+                                    <select name="cmbHabilidad" class="form-control" id="dark" required="true">
+                                        <option value="0">Seleccionar habilidad</option> 
+                                        <% List<Habilidad> lst5 = ch.listahabilidades();
+                                           for(Habilidad h: lst5){
+                                        %>
+                                        <option value="<%=h.getIdHabilidad() %>"><%=h.getNombreHabilidad() %></option>
+                                        <%}%>
+                                    </select><br>
+                                </div>
+                            </div>
+                     </div>          
+                        <div class="form-group ">
+                            <div class="cols-sm-10">
+                                <div class="input-group" style="text-align: left;">
+                                    <p style="margin-left: 5%;">Nivel:</p>
+                                    <% List<Nivel> lst6 = cvh.listaNivel() ; for(Nivel n: lst6){%>
+                                    <input type="radio" id="rh+<%=n.getIdNivel() %>"  name="nivel"  value="<%=n.getIdNivel() %>" name="radio-group" checked="">
+                                    <label for="rh+<%=n.getIdNivel() %>">&nbsp;<%=n.getNivel() %></label><br>
+                                     <%}%>
+                                </div>
+                            </div>
+                         </div> 
+                        <div id="botones">
+                            <button type="submit" name="btnGuardar" class="btn btn-primary "> <span class="glyphicon glyphicon-floppy-disk"></span>Guardar</button>
+                            <button type="submit" data-toggle="confirmation" name="btnModificar" class="btn btn-warning " data-btn-ok-label="Si" data-btn-ok-icon="glyphicon glyphicon-share-alt"
+                            data-btn-ok-class="btn-success" data-btn-cancel-label="No" data-btn-cancel-icon="glyphicon glyphicon-ban-circle" data-btn-cancel-class="btn-danger"
+                            data-title="¿Está seguro de modificar el registro?" data-content="Esto podría ser peligroso"><span class="glyphicon glyphicon-pencil"></span>Modificar</button>
+                            <button type="submit" data-toggle="confirmation" name="btnEliminar" class="btn btn-danger" data-btn-ok-label="Si" data-btn-ok-icon="glyphicon glyphicon-share-alt"
+                            data-btn-ok-class="btn-success" data-btn-cancel-label="No" data-btn-cancel-icon="glyphicon glyphicon-ban-circle" data-btn-cancel-class="btn-danger"
+                            data-title="¿Está seguro de eliminar el registro?" data-content="Esto podría ser peligroso"><span class="glyphicon glyphicon-remove"></span>Eliminar</button>
+                            <button type="reset"  class="btn btn-primary" >Cancelar</button>  
+                        </div>    
+                    </div>        
+                </div>
+                </form><!--End Formulario-->
+            </div>
+        </div>
+    </div><!--End modal-->
     
     <!--Formulario Habilidad-->
     <div class="modal fade" id="telefono" tabindex="-1" role="dialog" aria-labelledby="contactLabel" aria-hidden="true">
@@ -659,7 +722,7 @@
                             <div class="cols-sm-10">
                                 <div class="input-group">
                                     <span class="input-group-addon"></span>
-                                    <input type="text" name="txtTelefono" id="txtTelefono" placeholder="####-####" class="form-control" required="true">
+                                    <input type="text" name="txtTelefono" id="txtTelefono" placeholder="(503)0000-0000" class="form-control phone" required="true">
                                 </div>
                             </div>
                         </div>
@@ -678,7 +741,7 @@
         </div>
     </div><!--End modal-->
     
- <!--Formulario Habilidad-->
+ <!--Formulario Correo-->
     <div class="modal fade" id="correo" tabindex="-1" role="dialog" aria-labelledby="contactLabel" aria-hidden="true">
         <div class="modal-dialog"  id="modal-dialog">
             <div class="panel panel-primary" id="panel-primary">
@@ -791,7 +854,7 @@
                            <span class="icon-bar"></span>
                            <span class="icon-bar"></span>
                    </button>
-                   <a class="navbar-brand" href="perfil.jsp">Bienvenid@ <%=nombre %></a>
+                   <a class="navbar-brand" href="perfil.jsp"><%=nombre %></a>
            </div>
            <!-- Collect the nav links, forms, and other content for toggling -->
            <div class="collapse navbar-collapse" id="bs-sidebar-navbar-collapse-1">
@@ -814,9 +877,13 @@
                         </li>
                         <li><a data-toggle="modal" data-target="#foto" onclick="cargarFoto('<%=can.getFoto()%>')" >
                             Subir foto<span class=" pull-right hidden-xs showopacity glyphicon glyphicon-camera"></span></a></li>   
-                        <% } %>
-                        <li><a href="#">Aplicación de trabajo<span class="badge pull-right">3</span></a></li>
-                        <li><a href="#">Siguiendo<span class="badge pull-right">5</span></a></li>
+                        <% } 
+                           int siguiendo =  ccan.contarfollows(idCandidato); 
+                           int apply     = ccan.contarAplicaciones(idCandidato);
+                        %>
+                        <li><a href="oferta.jsp">Aplicación de trabajo<span class="badge pull-right"><%=apply %></span></a></li>
+                      
+                        <li><a href="seguir.jsp">Siguiendo<span class="badge pull-right"><%=siguiendo %></span></a></li>
                         <li ><a href="perfil.jsp">Actualizar curriculum<span style="font-size:16px;" class="pull-right hidden-xs showopacity glyphicon glyphicon-edit"></span></a></li>
                         <li ><a href="curriculum.jsp">Ver Curriculum<span style="font-size:16px;" class="pull-right hidden-xs showopacity glyphicon glyphicon-list-alt"></span></a></li>
                         <li ><a href="#"><form action='logoutcontroller' method='post'>Cerrar Sesión<button id='buttonL'  style=" border-radius: 5px;margin-top: -4px;" class="pull-right" ><span class='glyphicon glyphicon-off ' style="color: whitesmoke" ></span></button></form></a></li>
@@ -1062,13 +1129,13 @@
             </table>
         </form>
         
-        <!--Boton Finalidar-->
+        <!--Boton Finalidar
         <center>
-            <button type="submit" data-toggle="confirmation" name="btnModificar" id="buttonL"  class="btn btn-primary  btn-block " data-btn-ok-label="Si" data-btn-ok-icon="glyphicon glyphicon-share-alt"
+            <button type="submit"   data-toggle="confirmation" name="btnModificar" id="buttonL"  class="btn btn-primary  btn-block " data-btn-ok-label="Si" data-btn-ok-icon="glyphicon glyphicon-share-alt"
                 data-btn-ok-class="btn-success" data-btn-cancel-label="No" data-btn-cancel-icon="glyphicon glyphicon-ban-circle" data-btn-cancel-class="btn-danger"
-                data-title="¿Está seguro de finalizar la edición de su curriculum?"><span class="glyphicon glyphicon-saved "></span> Finalizar
+                data-title="¿Está seguro de finalizar la edición de su curriculum?"><span class="glyphicon glyphicon-saved "></span>Finalizar
             </button>
-        </center>
+        </center>-->
     
 </div><!--Fin de main-cv--> 
 

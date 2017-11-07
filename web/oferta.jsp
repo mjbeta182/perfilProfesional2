@@ -25,6 +25,9 @@
         {
             criterio = (String) request.getSession().getAttribute("criterio");
         }
+        if (session.getAttribute("user") == null){
+            response.sendRedirect("index.jsp");
+        }
         
     %>    
     <div class="container-fluid">
@@ -41,9 +44,6 @@
         <!-- Keep all page content within the page-content inset div! -->
         <div class="page-content inset">
           <div class="row">
-              <div style="">
-                  
-              </div>
               
               <form action="procesarOferta">
                   <div style="display: none;">
@@ -85,7 +85,14 @@
                 
                 <div class="media well" style="margin-left: 20px;">
                 <div class="col-md-2">
-                    <img src="imagenes/empresa.png" title="Empresas" width="115px">
+                    <%
+                        CrudEmpresa cemp = new CrudEmpresa();
+                         List<Empresa> ls = cemp.obtenerEmpresas(e.getEmpresa().getIdEmpresa());
+                        for(Empresa emp:ls){
+                        
+                    %>
+                        <img src="imagenes/fotos/<%=emp.getFoto() %>" title="Empresa" width="120px" height="120px"  style="border-radius: 50%;">
+                    <%}%>
                 </div>
                 <div class="col-md-10 " style="padding-left: 10%;">
                     <form action="procesarOferta">
@@ -110,7 +117,8 @@
         </div>
     </div>
                 </div>
+                <jsp:include page="plantilla/footer.jsp"/> 
         </div>
-        <jsp:include page="plantilla/footer.jsp"/> 
+        
     </body>
 </html>

@@ -1,0 +1,509 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="null" language="groovy" pageWidth="595" pageHeight="842" columnWidth="535" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="e16de4b3-93aa-4580-a08f-c0e624211508">
+	<property name="template.type" value="columnar"/>
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<style name="Title" forecolor="#000000" fontName="Times New Roman" fontSize="50" isBold="false" pdfFontName="Times-Bold"/>
+	<style name="SubTitle" forecolor="#666666" fontName="Times New Roman" fontSize="18" isBold="false" pdfFontName="Times-Roman"/>
+	<style name="Column header" forecolor="#666666" fontName="Times New Roman" fontSize="14" isBold="true" pdfFontName="Times-Roman"/>
+	<style name="Detail" mode="Transparent" fontName="Times New Roman" pdfFontName="Times-Roman"/>
+	<style name="Row" mode="Transparent" fontName="Times New Roman" pdfFontName="Times-Roman">
+		<conditionalStyle>
+			<conditionExpression><![CDATA[$V{REPORT_COUNT}%2 == 0]]></conditionExpression>
+			<style mode="Opaque" backcolor="#F0EFEF"/>
+		</conditionalStyle>
+	</style>
+	<queryString language="SQL">
+		<![CDATA[SELECT
+     candidato."nombre" AS candidato_nombre,
+     candidato."nacionalidad" AS candidato_nacionalidad,
+     candidato."fechanacimiento" AS candidato_fechanacimiento,
+     candidato."direccion" AS candidato_direccion,
+     candidato."foto" AS candidato_foto,
+     candidato."profesion" AS candidato_profesion,
+     departamento."nombredepto" AS departamento_nombredepto,
+     genero."genero" AS genero_genero,
+     nivelexperiencia."nombrenivelexperiencia" AS nivelexperiencia_nombrenivelexperiencia,
+     cargo."nombrecargo" AS cargo_nombrecargo,
+     correo."correo" AS correo_correo,
+     curso."titulo" AS curso_titulo,
+     curso."institucion" AS curso_institucion,
+     curso."aniofinalizacion" AS curso_aniofinalizacion,
+     idioma."nombreidioma" AS idioma_nombreidioma,
+     nivel."nivel" AS nivel_nivel,
+     experiencialaboral."nombreempresa" AS experiencialaboral_nombreempresa,
+     experiencialaboral."puesto" AS experiencialaboral_puesto,
+     experiencialaboral."fechainicio" AS experiencialaboral_fechainicio,
+     experiencialaboral."fechafin" AS experiencialaboral_fechafin,
+     telefono."idcandidato" AS telefono_idcandidato,
+     telefono."telefono" AS telefono_telefono,
+     educacion."institucion" AS educacion_institucion,
+     educacion."especialidad" AS educacion_especialidad,
+     educacion."aniofinalizacion" AS educacion_aniofinalizacion
+FROM
+     "public"."departamento" departamento INNER JOIN "public"."candidato" candidato ON departamento."iddepto" = candidato."iddepto"
+     INNER JOIN "public"."genero" genero ON candidato."idgenero" = genero."idgenero"
+     INNER JOIN "public"."curriculum" curriculum ON candidato."idcandidato" = curriculum."idcandidato"
+     INNER JOIN "public"."correo" correo ON candidato."idcandidato" = correo."idcandidato"
+     INNER JOIN "public"."telefono" telefono ON candidato."idcandidato" = telefono."idcandidato"
+     INNER JOIN "public"."nivelexperiencia" nivelexperiencia ON curriculum."idnivelexperiencia" = nivelexperiencia."idnivelexperiencia"
+     INNER JOIN "public"."cvcargo" cvcargo ON curriculum."idcurriculum" = cvcargo."idcurriculum"
+     INNER JOIN "public"."curso" curso ON curriculum."idcurriculum" = curso."idcurriculum"
+     INNER JOIN "public"."cvidioma" cvidioma ON curriculum."idcurriculum" = cvidioma."idcurriculum"
+     INNER JOIN "public"."experiencialaboral" experiencialaboral ON curriculum."idcurriculum" = experiencialaboral."idcurriculum"
+     INNER JOIN "public"."educacion" educacion ON curriculum."idcurriculum" = educacion."idcurriculum"
+     INNER JOIN "public"."idioma" idioma ON cvidioma."ididioma" = idioma."ididioma"
+     INNER JOIN "public"."nivel" nivel ON cvidioma."idnivel" = nivel."idnivel"
+     INNER JOIN "public"."cargo" cargo ON cvcargo."idcargo" = cargo."idcargo"]]>
+	</queryString>
+	<field name="candidato_nombre" class="java.lang.String"/>
+	<field name="candidato_nacionalidad" class="java.lang.String"/>
+	<field name="candidato_fechanacimiento" class="java.sql.Date"/>
+	<field name="candidato_direccion" class="java.lang.String"/>
+	<field name="candidato_foto" class="java.lang.String"/>
+	<field name="candidato_profesion" class="java.lang.String"/>
+	<field name="departamento_nombredepto" class="java.lang.String"/>
+	<field name="genero_genero" class="java.lang.String"/>
+	<field name="nivelexperiencia_nombrenivelexperiencia" class="java.lang.String"/>
+	<field name="cargo_nombrecargo" class="java.lang.String"/>
+	<field name="correo_correo" class="java.lang.String"/>
+	<field name="curso_titulo" class="java.lang.String"/>
+	<field name="curso_institucion" class="java.lang.String"/>
+	<field name="curso_aniofinalizacion" class="java.lang.Integer"/>
+	<field name="idioma_nombreidioma" class="java.lang.String"/>
+	<field name="nivel_nivel" class="java.lang.String"/>
+	<field name="experiencialaboral_nombreempresa" class="java.lang.String"/>
+	<field name="experiencialaboral_puesto" class="java.lang.String"/>
+	<field name="experiencialaboral_fechainicio" class="java.sql.Date"/>
+	<field name="experiencialaboral_fechafin" class="java.sql.Date"/>
+	<field name="telefono_idcandidato" class="java.lang.Integer"/>
+	<field name="telefono_telefono" class="java.lang.String"/>
+	<field name="educacion_institucion" class="java.lang.String"/>
+	<field name="educacion_especialidad" class="java.lang.String"/>
+	<field name="educacion_aniofinalizacion" class="java.lang.Integer"/>
+	<group name="candidato_nombre">
+		<groupExpression><![CDATA[$F{candidato_nombre}]]></groupExpression>
+		<groupHeader>
+			<band height="31">
+				<frame>
+					<reportElement mode="Opaque" x="0" y="7" width="555" height="24" forecolor="#B89F7D" backcolor="#9DB1B8" uuid="906ff43c-4f61-4792-8d98-36661183fb49"/>
+					<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+						<reportElement style="SubTitle" isPrintRepeatedValues="false" x="2" y="1" width="479" height="23" forecolor="#FFFFFF" uuid="e291215f-aaff-46e3-ba64-4f9cbed808d3"/>
+						<textElement>
+							<font isBold="false"/>
+						</textElement>
+						<textFieldExpression><![CDATA[$F{candidato_nombre}]]></textFieldExpression>
+					</textField>
+				</frame>
+			</band>
+		</groupHeader>
+		<groupFooter>
+			<band height="6"/>
+		</groupFooter>
+	</group>
+	<group name="candidato_profesion">
+		<groupExpression><![CDATA[$F{candidato_profesion}]]></groupExpression>
+		<groupHeader>
+			<band height="24">
+				<textField isBlankWhenNull="true">
+					<reportElement positionType="Float" x="0" y="4" width="299" height="20" forecolor="#000000" uuid="051e304f-0980-4e3d-b1ba-89ef1a411a9f"/>
+					<textElement>
+						<font fontName="Times New Roman" size="16" isBold="false"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{candidato_profesion}]]></textFieldExpression>
+				</textField>
+			</band>
+		</groupHeader>
+	</group>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="73" splitType="Stretch">
+			<staticText>
+				<reportElement style="Title" x="69" y="0" width="435" height="60" uuid="b45e551c-db9f-4b14-8293-7f793a759957"/>
+				<textElement>
+					<font size="50" isBold="false"/>
+				</textElement>
+				<text><![CDATA[Curriculum Vitae]]></text>
+			</staticText>
+		</band>
+	</title>
+	<pageHeader>
+		<band splitType="Stretch"/>
+	</pageHeader>
+	<columnHeader>
+		<band splitType="Stretch"/>
+	</columnHeader>
+	<detail>
+		<band height="528" splitType="Stretch">
+			<line>
+				<reportElement positionType="FixRelativeToBottom" x="4" y="515" width="551" height="1" uuid="cdf3e5e2-4a3c-4064-9a9f-fba5897a0e24"/>
+			</line>
+			<staticText>
+				<reportElement style="Column header" positionType="Float" x="79" y="0" width="132" height="20" forecolor="#000000" uuid="d36e5d79-14dc-47fc-84ab-f6689e12f512"/>
+				<textElement textAlignment="Right">
+					<font isBold="false"/>
+				</textElement>
+				<text><![CDATA[candidato_nacionalidad]]></text>
+			</staticText>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement style="Detail" positionType="Float" x="215" y="0" width="338" height="18" uuid="65fd17fb-d275-432d-8421-ed51f483a095"/>
+				<textElement>
+					<font size="14" isBold="true" pdfFontName="Times-Bold"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{candidato_nacionalidad}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement style="Column header" positionType="Float" x="79" y="20" width="132" height="20" forecolor="#000000" uuid="0e864404-84aa-4764-a803-54a53a31db85"/>
+				<textElement textAlignment="Right">
+					<font isBold="false"/>
+				</textElement>
+				<text><![CDATA[candidato_fechanacimiento]]></text>
+			</staticText>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement style="Detail" positionType="Float" x="215" y="20" width="338" height="18" uuid="4d94a95c-a2bc-41db-9863-af35e3b2002b"/>
+				<textElement>
+					<font size="14" isBold="true" pdfFontName="Times-Bold"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{candidato_fechanacimiento}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement style="Column header" positionType="Float" x="79" y="40" width="132" height="20" forecolor="#000000" uuid="e89bcafa-75ed-4696-9588-3545bc24b51b"/>
+				<textElement textAlignment="Right">
+					<font isBold="false"/>
+				</textElement>
+				<text><![CDATA[candidato_direccion]]></text>
+			</staticText>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement style="Detail" positionType="Float" x="215" y="40" width="338" height="18" uuid="7a00c85e-6189-4b2a-9ad4-b48502290789"/>
+				<textElement>
+					<font size="14" isBold="true" pdfFontName="Times-Bold"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{candidato_direccion}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement style="Column header" positionType="Float" x="79" y="60" width="132" height="20" forecolor="#000000" uuid="d1e3c2eb-3352-4373-ab04-48a6065c25b3"/>
+				<textElement textAlignment="Right">
+					<font isBold="false"/>
+				</textElement>
+				<text><![CDATA[candidato_foto]]></text>
+			</staticText>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement style="Detail" positionType="Float" x="215" y="60" width="338" height="18" uuid="c6d77697-f571-4dbf-969a-8b934bbebf98"/>
+				<textElement>
+					<font size="14" isBold="true" pdfFontName="Times-Bold"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{candidato_foto}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement style="Column header" positionType="Float" x="79" y="80" width="132" height="20" forecolor="#000000" uuid="2f1bb641-fbe7-4edf-98a4-0c903367aeaf"/>
+				<textElement textAlignment="Right">
+					<font isBold="false"/>
+				</textElement>
+				<text><![CDATA[departamento_nombredepto]]></text>
+			</staticText>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement style="Detail" positionType="Float" x="215" y="80" width="338" height="18" uuid="05d5cfe5-aa75-4362-ab13-6e832919a50f"/>
+				<textElement>
+					<font size="14" isBold="true" pdfFontName="Times-Bold"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{departamento_nombredepto}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement style="Column header" positionType="Float" x="79" y="100" width="132" height="20" forecolor="#000000" uuid="9369eb82-e534-412c-b508-8f65fbe96e2e"/>
+				<textElement textAlignment="Right">
+					<font isBold="false"/>
+				</textElement>
+				<text><![CDATA[genero_genero]]></text>
+			</staticText>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement style="Detail" positionType="Float" x="215" y="100" width="338" height="18" uuid="bc4f0f8f-0c0b-41a7-bb70-16d1a903257e"/>
+				<textElement>
+					<font size="14" isBold="true" pdfFontName="Times-Bold"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{genero_genero}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement style="Column header" positionType="Float" x="79" y="120" width="132" height="20" forecolor="#000000" uuid="53cef113-348b-4bfb-acf0-c3fce7ceb5cd"/>
+				<textElement textAlignment="Right">
+					<font isBold="false"/>
+				</textElement>
+				<text><![CDATA[nivelexperiencia_nombrenivelexperiencia]]></text>
+			</staticText>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement style="Detail" positionType="Float" x="215" y="120" width="338" height="18" uuid="d7579728-950c-4664-9393-18111b93bd69"/>
+				<textElement>
+					<font size="14" isBold="true" pdfFontName="Times-Bold"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{nivelexperiencia_nombrenivelexperiencia}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement style="Column header" positionType="Float" x="79" y="140" width="132" height="20" forecolor="#000000" uuid="92fe5721-a2fa-4185-81b1-c046de2552ba"/>
+				<textElement textAlignment="Right">
+					<font isBold="false"/>
+				</textElement>
+				<text><![CDATA[cargo_nombrecargo]]></text>
+			</staticText>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement style="Detail" positionType="Float" x="215" y="140" width="338" height="18" uuid="776a7df4-6711-45b5-9ba7-acd8e637a8cc"/>
+				<textElement>
+					<font size="14" isBold="true" pdfFontName="Times-Bold"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{cargo_nombrecargo}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement style="Column header" positionType="Float" x="79" y="160" width="132" height="20" forecolor="#000000" uuid="bcbb00fd-d72c-4d1d-999b-a39a852d94be"/>
+				<textElement textAlignment="Right">
+					<font isBold="false"/>
+				</textElement>
+				<text><![CDATA[correo_correo]]></text>
+			</staticText>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement style="Detail" positionType="Float" x="215" y="160" width="338" height="18" uuid="d277fc36-46b4-444c-abb3-ea09f501fed9"/>
+				<textElement>
+					<font size="14" isBold="true" pdfFontName="Times-Bold"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{correo_correo}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement style="Column header" positionType="Float" x="79" y="180" width="132" height="20" forecolor="#000000" uuid="d6687058-11df-42de-9df3-4981a730497d"/>
+				<textElement textAlignment="Right">
+					<font isBold="false"/>
+				</textElement>
+				<text><![CDATA[curso_titulo]]></text>
+			</staticText>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement style="Detail" positionType="Float" x="215" y="180" width="338" height="18" uuid="1e2423d3-8df3-44e7-b254-a536c55e256b"/>
+				<textElement>
+					<font size="14" isBold="true" pdfFontName="Times-Bold"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{curso_titulo}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement style="Column header" positionType="Float" x="79" y="200" width="132" height="20" forecolor="#000000" uuid="6c6ccedd-e2f4-4e09-bda6-a2d36253c1a7"/>
+				<textElement textAlignment="Right">
+					<font isBold="false"/>
+				</textElement>
+				<text><![CDATA[curso_institucion]]></text>
+			</staticText>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement style="Detail" positionType="Float" x="215" y="200" width="338" height="18" uuid="5ee776e8-913b-4986-a081-188167457c4f"/>
+				<textElement>
+					<font size="14" isBold="true" pdfFontName="Times-Bold"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{curso_institucion}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement style="Column header" positionType="Float" x="79" y="220" width="132" height="20" forecolor="#000000" uuid="d1748abd-acd3-4761-87c9-eaa12ee62dc8"/>
+				<textElement textAlignment="Right">
+					<font isBold="false"/>
+				</textElement>
+				<text><![CDATA[curso_aniofinalizacion]]></text>
+			</staticText>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement style="Detail" positionType="Float" x="215" y="220" width="338" height="18" uuid="2fb2214f-3ace-496d-8b61-345e0b30f1c7"/>
+				<textElement>
+					<font size="14" isBold="true" pdfFontName="Times-Bold"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{curso_aniofinalizacion}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement style="Column header" positionType="Float" x="79" y="240" width="132" height="20" forecolor="#000000" uuid="92735943-6c82-4245-8348-ec98ec6d8a35"/>
+				<textElement textAlignment="Right">
+					<font isBold="false"/>
+				</textElement>
+				<text><![CDATA[idioma_nombreidioma]]></text>
+			</staticText>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement style="Detail" positionType="Float" x="215" y="240" width="338" height="18" uuid="12241afe-11b5-45d1-86a7-165dd9d132c9"/>
+				<textElement>
+					<font size="14" isBold="true" pdfFontName="Times-Bold"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{idioma_nombreidioma}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement style="Column header" positionType="Float" x="79" y="260" width="132" height="20" forecolor="#000000" uuid="4cb50b52-cccb-4aae-bdf5-430a4c37335a"/>
+				<textElement textAlignment="Right">
+					<font isBold="false"/>
+				</textElement>
+				<text><![CDATA[nivel_nivel]]></text>
+			</staticText>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement style="Detail" positionType="Float" x="215" y="260" width="338" height="18" uuid="c9de6aa7-cdc1-48d3-9c24-e1bd55011ed1"/>
+				<textElement>
+					<font size="14" isBold="true" pdfFontName="Times-Bold"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{nivel_nivel}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement style="Column header" positionType="Float" x="79" y="280" width="132" height="20" forecolor="#000000" uuid="f404a527-49c6-4f92-81d8-7404c8ddddcb"/>
+				<textElement textAlignment="Right">
+					<font isBold="false"/>
+				</textElement>
+				<text><![CDATA[experiencialaboral_nombreempresa]]></text>
+			</staticText>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement style="Detail" positionType="Float" x="215" y="280" width="338" height="18" uuid="7e0ed84c-f7c2-4975-82f3-9493f1819ce8"/>
+				<textElement>
+					<font size="14" isBold="true" pdfFontName="Times-Bold"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{experiencialaboral_nombreempresa}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement style="Column header" positionType="Float" x="79" y="300" width="132" height="20" forecolor="#000000" uuid="7af71ab6-54bc-4338-8192-9d539fe7fa83"/>
+				<textElement textAlignment="Right">
+					<font isBold="false"/>
+				</textElement>
+				<text><![CDATA[experiencialaboral_puesto]]></text>
+			</staticText>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement style="Detail" positionType="Float" x="215" y="300" width="338" height="18" uuid="81dac784-74d0-4448-beb2-304a4cfa3f91"/>
+				<textElement>
+					<font size="14" isBold="true" pdfFontName="Times-Bold"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{experiencialaboral_puesto}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement style="Column header" positionType="Float" x="79" y="320" width="132" height="20" forecolor="#000000" uuid="7d59a727-078e-4a56-b2f3-e013bf9e26d2"/>
+				<textElement textAlignment="Right">
+					<font isBold="false"/>
+				</textElement>
+				<text><![CDATA[experiencialaboral_fechainicio]]></text>
+			</staticText>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement style="Detail" positionType="Float" x="215" y="320" width="338" height="18" uuid="b4a9baac-c8e8-4159-a8fc-ccfb64dad167"/>
+				<textElement>
+					<font size="14" isBold="true" pdfFontName="Times-Bold"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{experiencialaboral_fechainicio}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement style="Column header" positionType="Float" x="79" y="340" width="132" height="20" forecolor="#000000" uuid="c0352016-2d0b-4415-86e7-d9c29c3f1ff5"/>
+				<textElement textAlignment="Right">
+					<font isBold="false"/>
+				</textElement>
+				<text><![CDATA[experiencialaboral_fechafin]]></text>
+			</staticText>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement style="Detail" positionType="Float" x="215" y="340" width="338" height="18" uuid="3f8d0187-98ea-4c73-8b2a-3a799c0cb260"/>
+				<textElement>
+					<font size="14" isBold="true" pdfFontName="Times-Bold"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{experiencialaboral_fechafin}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement style="Column header" positionType="Float" x="79" y="360" width="132" height="20" forecolor="#000000" uuid="68098a34-8a99-4928-bf72-9ce5e06915bc"/>
+				<textElement textAlignment="Right">
+					<font isBold="false"/>
+				</textElement>
+				<text><![CDATA[telefono_idcandidato]]></text>
+			</staticText>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement style="Detail" positionType="Float" x="215" y="360" width="338" height="18" uuid="867e95fc-8717-4461-a4a7-a094db2ce952"/>
+				<textElement>
+					<font size="14" isBold="true" pdfFontName="Times-Bold"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{telefono_idcandidato}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement style="Column header" positionType="Float" x="79" y="380" width="132" height="20" forecolor="#000000" uuid="aa5c0b76-2e12-46a2-a34a-81780c379cc8"/>
+				<textElement textAlignment="Right">
+					<font isBold="false"/>
+				</textElement>
+				<text><![CDATA[telefono_telefono]]></text>
+			</staticText>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement style="Detail" positionType="Float" x="215" y="380" width="338" height="18" uuid="20ad4abc-abab-4264-abed-5a2332e8babb"/>
+				<textElement>
+					<font size="14" isBold="true" pdfFontName="Times-Bold"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{telefono_telefono}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement style="Column header" positionType="Float" x="79" y="400" width="132" height="20" forecolor="#000000" uuid="505885a2-f074-42ae-a458-269a4ed3f3cb"/>
+				<textElement textAlignment="Right">
+					<font isBold="false"/>
+				</textElement>
+				<text><![CDATA[educacion_institucion]]></text>
+			</staticText>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement style="Detail" positionType="Float" x="215" y="400" width="338" height="18" uuid="7f025e58-29a1-4c5a-8716-55770cd2bfe7"/>
+				<textElement>
+					<font size="14" isBold="true" pdfFontName="Times-Bold"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{educacion_institucion}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement style="Column header" positionType="Float" x="79" y="420" width="132" height="20" forecolor="#000000" uuid="c91eee26-2e4f-4901-aef7-0da1c7eb4459"/>
+				<textElement textAlignment="Right">
+					<font isBold="false"/>
+				</textElement>
+				<text><![CDATA[educacion_especialidad]]></text>
+			</staticText>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement style="Detail" positionType="Float" x="215" y="420" width="338" height="18" uuid="ba436a99-ccf9-4808-9528-18ddc3be240d"/>
+				<textElement>
+					<font size="14" isBold="true" pdfFontName="Times-Bold"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{educacion_especialidad}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement style="Column header" positionType="Float" x="79" y="440" width="132" height="20" forecolor="#000000" uuid="c8058ba2-d960-466c-876f-e1a078e2a232"/>
+				<textElement textAlignment="Right">
+					<font isBold="false"/>
+				</textElement>
+				<text><![CDATA[educacion_aniofinalizacion]]></text>
+			</staticText>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement style="Detail" positionType="Float" x="215" y="440" width="338" height="18" uuid="57de5022-ec21-4f96-a1bb-d54ce56a6d27"/>
+				<textElement>
+					<font size="14" isBold="true" pdfFontName="Times-Bold"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{educacion_aniofinalizacion}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<columnFooter>
+		<band height="7" splitType="Stretch">
+			<line>
+				<reportElement positionType="FixRelativeToBottom" x="0" y="3" width="555" height="1" uuid="8acfb126-58ae-4a68-b5d4-c0d3f7b63980"/>
+				<graphicElement>
+					<pen lineWidth="0.5" lineColor="#999999"/>
+				</graphicElement>
+			</line>
+		</band>
+	</columnFooter>
+	<pageFooter>
+		<band height="13" splitType="Stretch">
+			<frame>
+				<reportElement mode="Opaque" x="2" y="0" width="555" height="13" forecolor="#D0B48E" backcolor="#9DB1B8" uuid="ac2af351-0fe8-48ee-ac4b-8f4a024e463c"/>
+				<textField evaluationTime="Report">
+					<reportElement style="Column header" x="513" y="-1" width="40" height="13" forecolor="#FFFFFF" uuid="921d3e0c-a490-40ff-b419-63565738eed2"/>
+					<textElement verticalAlignment="Middle">
+						<font size="10" isBold="false"/>
+					</textElement>
+					<textFieldExpression><![CDATA[" " + $V{PAGE_NUMBER}]]></textFieldExpression>
+				</textField>
+				<textField>
+					<reportElement style="Column header" x="433" y="-1" width="80" height="13" forecolor="#FFFFFF" uuid="6e1220ff-d900-4bf5-8eea-8b354f66e527"/>
+					<textElement textAlignment="Right" verticalAlignment="Middle">
+						<font size="10" isBold="false"/>
+					</textElement>
+					<textFieldExpression><![CDATA["Page "+$V{PAGE_NUMBER}+" of"]]></textFieldExpression>
+				</textField>
+				<textField pattern="EEEEE dd MMMMM yyyy">
+					<reportElement style="Column header" x="2" y="0" width="197" height="13" forecolor="#FFFFFF" uuid="5abc3f96-1ba6-4c56-bfe6-0ac2da3910e4"/>
+					<textElement verticalAlignment="Middle">
+						<font size="10" isBold="false"/>
+					</textElement>
+					<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
+				</textField>
+			</frame>
+		</band>
+	</pageFooter>
+	<summary>
+		<band splitType="Stretch"/>
+	</summary>
+</jasperReport>

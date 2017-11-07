@@ -264,5 +264,59 @@ public class CrudCandidato extends Conexion {
         }
         return edad;
     }
- 
+  public int contarfollows(int id) throws Exception
+    {
+        Conexion db = new Conexion();
+        Connection conexion = null;
+        ResultSet rs;
+        int resp = 0;
+         try 
+         {  
+            conexion = db.getConnection();
+            String sql="select count(idcandidatofollower) as resp from seguircandidato  where idcandidatofollower=? ";
+            PreparedStatement pst = conexion.prepareCall(sql);
+            pst.setInt(1, id);
+            rs = pst.executeQuery();
+            while(rs.next())
+            {
+              resp = rs.getInt("resp");
+            } 
+        } catch (Exception e) {
+             throw e;
+        }
+        finally
+         {
+            conexion.close();
+         }
+        return resp;
+    }
+    
+  public int contarAplicaciones(int id) throws Exception
+    {
+        Conexion db = new Conexion();
+        Connection conexion = null;
+        ResultSet rs;
+        int resp = 0;
+         try 
+         {  
+            conexion = db.getConnection();
+            String sql="select count(idoferta) as resp from aplicantesoferta  where idcandidato=? ";
+            PreparedStatement pst = conexion.prepareCall(sql);
+            pst.setInt(1, id);
+            rs = pst.executeQuery();
+            while(rs.next())
+            {
+              resp = rs.getInt("resp");
+            } 
+        } catch (Exception e) {
+             throw e;
+        }
+        finally
+         {
+            conexion.close();
+         }
+        return resp;
+    }
+    
+    
 }

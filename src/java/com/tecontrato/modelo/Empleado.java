@@ -24,6 +24,20 @@ public class Empleado {
         this.foto = foto;
     }
 
+    public Empleado(int idEmpleado, String foto) {
+        this.idEmpleado = idEmpleado;
+        this.foto = foto;
+    }
+
+    public Empleado(int idEmpleado, String nombreEmpleado, String direccion, String telefono, String fechaNacimiento) {
+        this.idEmpleado = idEmpleado;
+        this.nombreEmpleado = nombreEmpleado;
+        this.direccion = direccion;
+        this.telefono = telefono;
+        this.fechaNacimiento = fechaNacimiento;
+    }
+
+    
     public int getIdEmpleado() {
         return idEmpleado;
     }

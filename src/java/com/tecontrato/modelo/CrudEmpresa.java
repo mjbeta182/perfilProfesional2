@@ -14,14 +14,15 @@ import java.util.List;
  */
 public class CrudEmpresa extends Conexion {
     
-    public void insertarEmpresa(Empresa emp) throws Exception
+    public int insertarEmpresa(Empresa emp) throws Exception
     {
         
         Conexion db = new Conexion();
         Connection conexion = null;
+        int resultado = 0;
         try {
             conexion = db.getConnection();
-            String sql="insert into empresa(idempresa,actividad,descripcion,email,telefono,nombreempresa) values(?,?,?,?,?,?)";
+            String sql="insert into empresa(idempresa,actividad,descripcion,email,telefono,nombreempresa,foto) values(?,?,?,?,?,?,'userdefault.png')";
             PreparedStatement pre = conexion.prepareStatement(sql);           
             
             pre.setInt(1, emp.getIdEmpresa());
@@ -31,19 +32,23 @@ public class CrudEmpresa extends Conexion {
             pre.setString(5, emp.getTelefono());
             pre.setString(6, emp.getNombreEmpresa());
             
-            pre.executeUpdate(); 
+           resultado = pre.executeUpdate(); 
             
         } catch (Exception e) {
             
             throw e;
+        }finally{
+            conexion.close();
         }
+        return  resultado;
     }
     
-    public void modificarEmpresa(Empresa emp) throws Exception
+    public int modificarEmpresa(Empresa emp) throws Exception
     {
         
         Conexion db = new Conexion();
         Connection conexion = null;
+          int resultado = 0;
         try {
             conexion = db.getConnection();
             String sql="update empresa set actividad=?,descripcion=?,email=?,telefono=?,nombreempresa=? where idempresa=?";
@@ -56,21 +61,24 @@ public class CrudEmpresa extends Conexion {
             pre.setString(5, emp.getNombreEmpresa());
             pre.setInt(6, emp.getIdEmpresa());
             
-            
-            pre.executeUpdate(); 
+            resultado = pre.executeUpdate(); 
             
         } catch (Exception e) {
             
             throw e;
+        }finally{
+            conexion.close();
         }
+        return resultado;
     }
     
  
-    public void eliminarEmpresa(Empresa emp) throws Exception
+    public int eliminarEmpresa(Empresa emp) throws Exception
     {
         
         Conexion db = new Conexion();
         Connection conexion = null;
+        int resultado = 0;
         try {
             conexion = db.getConnection();
             String sql="delete from empresa where idempresa=?;delete from usuario where idusuario=?";
@@ -79,14 +87,40 @@ public class CrudEmpresa extends Conexion {
             pre.setInt(1, emp.getIdEmpresa());
             pre.setInt(2, emp.getIdEmpresa());
             
-            pre.executeUpdate(); 
+            resultado = pre.executeUpdate(); 
             
         } catch (Exception e) {
             
             throw e;
+        }finally{
+            conexion.close();
         }
+        return resultado;
     }
     
+     public int modificarFoto(Empresa emp) throws Exception
+    {
+        int resultado = 0;
+        Conexion db = new Conexion();
+        Connection conexion = null;
+        try {
+            conexion = db.getConnection();
+            String sql="update empresa set foto=? where idempresa=?";
+            PreparedStatement pre = conexion.prepareStatement(sql); 
+            
+            pre.setString(1, emp.getFoto());
+            pre.setInt(2, emp.getIdEmpresa());
+
+            resultado = pre.executeUpdate();  
+            
+        } catch (Exception e) {
+            
+            throw e;
+        }finally{
+            conexion.close();
+        }
+        return resultado;
+    }
     
     public List<Empresa>mostrarEmpresa() throws Exception
     {
@@ -108,6 +142,7 @@ public class CrudEmpresa extends Conexion {
                 emp.setEmail(res.getString("email"));
                 emp.setTelefono(res.getString("telefono"));
                 emp.setNombreEmpresa(res.getString("nombreempresa"));
+                emp.setFoto(res.getString("foto"));
  
                 lst.add(emp);
             }
@@ -146,6 +181,36 @@ public class CrudEmpresa extends Conexion {
             conexion = db.getConnection();
             String sql="select * from empresa order by random() limit 4";
             PreparedStatement pre = conexion.prepareCall(sql);
+            res = pre.executeQuery();
+            while(res.next())
+            {
+                Empresa emp= new Empresa();
+                emp.setIdEmpresa(res.getInt("idempresa"));
+                emp.setActividad(res.getString("actividad"));
+                emp.setDescripcion(res.getString("descripcion"));
+                emp.setEmail(res.getString("email"));
+                emp.setTelefono(res.getString("telefono"));
+                emp.setNombreEmpresa(res.getString("nombreempresa"));
+                emp.setFoto(res.getString("foto"));
+                lst.add(emp);
+            }
+        } catch (Exception e) {
+            throw e;
+        }
+        return lst;
+    }
+    
+    public List<Empresa>obtenerEmpresas(int id) throws Exception
+    {
+        Conexion db = new Conexion();
+        Connection conexion = null;
+        ResultSet res;
+        List<Empresa>lst= new ArrayList();
+        try {
+            conexion = db.getConnection();
+            String sql="select * from empresa where idempresa=?";
+            PreparedStatement pre = conexion.prepareCall(sql);
+            pre.setInt(1, id);
             res = pre.executeQuery();
             while(res.next())
             {
