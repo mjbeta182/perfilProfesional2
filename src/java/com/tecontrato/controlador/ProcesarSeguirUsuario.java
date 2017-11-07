@@ -5,6 +5,7 @@
  */
 package com.tecontrato.controlador;
 
+import com.tecontrato.modelo.CrudCvHabilidad;
 import com.tecontrato.modelo.CrudOferta;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -33,6 +34,7 @@ public class ProcesarSeguirUsuario extends HttpServlet {
         response.setContentType("text/html;charset=UTF-8");
         PrintWriter out = response.getWriter();
         CrudOferta crof = new CrudOferta();       
+        CrudCvHabilidad cvh = new CrudCvHabilidad();   
           
          try {
            if(request.getParameter("txtBuscar")!=null)
@@ -64,9 +66,13 @@ public class ProcesarSeguirUsuario extends HttpServlet {
                 request.getSession().setAttribute("idusuario", idusuario);
                 crof.eliminarSeguir(idseguir, idusuario);
                 response.sendRedirect("seguirusuario.jsp");
-            }else if(request.getParameter("btnCandidatos")!=null)
+            }else if(request.getParameter("btnGuardar")!=null)
             {
-                response.sendRedirect("ofertaaplicantes.jsp");
+                int valoracion = Integer.parseInt(request.getParameter("spValor"));
+                String comentario = request.getParameter("txtDescripcion");
+                int iddetalle = Integer.parseInt(request.getParameter("txtIdDetalle"));
+                cvh.insertarComentario(valoracion, comentario, iddetalle);
+                response.sendRedirect("seguirusuario.jsp");
             } 
         } catch (Exception e) {
             out.println(e);

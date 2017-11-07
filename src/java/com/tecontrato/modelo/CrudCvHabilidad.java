@@ -182,4 +182,94 @@ public class CrudCvHabilidad extends Conexion{
         }
         return lst;
     }
+    
+    public List<CvHabilidad>listaCvhId(String codigo) throws Exception
+    {
+        Conexion db=new Conexion();
+        Connection conexion =null;
+        ResultSet res;
+        List<CvHabilidad>lst=new ArrayList();
+        try 
+        {
+            conexion = db.getConnection();
+            String sql="SELECT idcurriculum, cvh.idhabilidad, nombrehabilidad, cvh.idnivel, nivel, iddetallehabilidad " +
+                        "FROM cvhabilidad cvh " +
+                        "inner join habilidad h on cvh.idhabilidad = h.idhabilidad  " +
+                        "inner join nivel n on cvh.idnivel = n.idnivel " +
+                        "where cvh.idcurriculum="+codigo;
+            PreparedStatement pre = conexion.prepareCall(sql);
+            res=pre.executeQuery();
+            while(res.next())
+            {
+                Curriculum cv=new Curriculum();
+                cv.setIdCurriculum(res.getInt("idcurriculum"));
+                
+                Habilidad ha=new Habilidad();
+                ha.setIdHabilidad(res.getInt("idhabilidad"));
+                ha.setNombreHabilidad(res.getString("nombrehabilidad"));
+                
+                Nivel ni=new Nivel();
+                ni.setIdNivel(res.getInt("idnivel"));
+                ni.setNivel(res.getString("nivel"));
+                
+                CvHabilidad cvh=new CvHabilidad(cv,ha,res.getInt("iddetallehabilidad"),ni);
+                lst.add(cvh);
+            }
+        } 
+        catch (Exception e) 
+        {
+            throw e;
+        }
+        return lst;
+    }
+    
+    public void insertarComentario(int valor, String comentario, int iddetalle) throws Exception
+    {
+        Conexion db = new Conexion();
+        Connection conexion = null;
+        try 
+        {
+            conexion = db.getConnection();
+            String sql="INSERT INTO public.comentarios(\n" +
+"	iddetallehabilidad, comentario)\n" +
+"	VALUES ("+iddetalle+",'"+comentario+"');INSERT INTO public.valoracion(\n" +
+"	iddetallehabilidad, promedio)\n" +
+"	VALUES ("+iddetalle+","+valor+")";
+            PreparedStatement pre = conexion.prepareStatement(sql);
+            pre.executeUpdate();
+        } 
+        catch (Exception e) 
+        {
+            throw e;
+        }
+    }
+    
+    public List<Valoraciones>listaComentario(String codigo) throws Exception
+    {
+        Conexion db=new Conexion();
+        Connection conexion =null;
+        ResultSet res;
+        List<Valoraciones>lst=new ArrayList();
+        try 
+        {
+            conexion = db.getConnection();
+            String sql="select distinct c.iddetallehabilidad, comentario, promedio, numerovaloraciones " +
+                       "from comentarios c inner join valoracion v on v.iddetallehabilidad = c.iddetallehabilidad " +
+                        "where c.iddetallehabilidad="+codigo;
+            PreparedStatement pre = conexion.prepareCall(sql);
+            res=pre.executeQuery();
+            while(res.next())
+            {
+                Valoraciones val = new Valoraciones();
+                val.setIddetalle(res.getInt("iddetallehabilidad"));
+                val.setComentario(res.getString("comentario"));
+                val.setValoracion(res.getInt("promedio"));
+            }
+        } 
+        catch (Exception e) 
+        {
+            throw e;
+        }
+        return lst;
+    }
 }

@@ -13,10 +13,34 @@
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <jsp:include page="plantilla/libs.jsp"/>
         <title>Usuarios</title>
+        
+        <script Language='JavaScript'>
+          var iddetalle=0;
+          function cargar(codigo, nombre, nivel)
+          {
+               //document.frmOferta.nombre.value=nombre;
+               //document.frmOferta.nivel.value=nivel;
+               var codigoId = codigo;
+               iddetalle = codigoId;
+               $('#txtIdDetalle').val(codigo);
+               
+          }
+          
+          $(document).ready(function(){
+            $(" [data-toggle=confirmation]").confirmation({
+            rootSelector: "[data-toggle=confirmation]",
+            // other options
+            popout:true,
+            singleton:true
+            });
+          }); 
+        </script>
+        
     </head>
     <body class="bodyFormulario">
     <%
         CrudOferta crof = new CrudOferta();
+        CrudCvHabilidad cvh = new CrudCvHabilidad();
         
        //Este código es para obtener el id de la oferta que se mostrará
         String codigo="";
@@ -47,6 +71,79 @@
             ${respuesta}
              
         </div>
+            <div class="row">
+    <!--Cambiar id modal-fade segun formulario con data-toggle="modal" data-target="#id" 
+    con esto se manda a llamar el modal  en las etiquetas <a></a> o <button></button> -->
+    
+        <div class="modal fade" id="habilidad" tabindex="-1" role="dialog" aria-labelledby="contactLabel" aria-hidden="true">
+        <div class="modal-dialog"  id="modal-dialog">
+            <div class="panel panel-primary" id="panel-primary">
+                <div class="panel-heading" id="panel-heading" >
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                    <h4 class="panel-title" id="contactLabel">TeContrato.com</h4>
+                </div>
+                 <!--Formulario-->
+                 <form action="procesarSeguirUsuario" method="post" name="frmHabilidades" >
+                <div class="modal-body" id="modalBody">               
+                    <div class="main-center">
+                        <h3><strong>VALORAR</strong></h3>
+                        <div style="display: none;">
+                            <%= nombre = (String) session.getAttribute("user") %>
+                            <% codigod = crof.obtenerid(nombre);%>
+                            <% rol = crof.obtenerrol(codigod);%>
+                            <input type="text" name="codUsu" id="codUsu" value="<%= codigo%>">
+                            <input type="text" name="idrol" id="idrol" value="<%= rol%>">
+                        </div>
+                        
+                        <!--
+                            <input type="text"  name="idhabilidad" id="idhabilidad"   class="form-control" placeholder="Código" style="display: none;" readonly="true"/>
+                            <input type="text" name="nombrehabilidad" id="nombrehabilidad"  class="form-control" placeholder="Nombre"  required="true" />
+                        -->
+                       <input type="text" class="form-control" name="txtIdDetalle" id="txtIdDetalle" style="display: none;" placeholder="Codigo"/>
+                       <label class="cols-sm-2 control-label" id="nombre" ></label>
+                        <label class="cols-sm-2 control-label" id="nivel"></label>
+                              
+                            <div class="form-group">
+                                <label for="valoracion" class="cols-sm-2 control-label">Valoración</label>
+                                <div class="cols-sm-10">
+                                    <div class="input-group">
+                                        <span class="input-group-addon"><i class="fa fa-star" aria-hidden="true"></i></span>
+                                        <input type="number" class="form-control" name="spValor" id="spValor"  placeholder="Seleccione una valoración" required="true" min="1" max="5"/>
+                                    </div>
+                                </div>
+                            </div>           
+                       
+                           <div class="form-group">
+                                <label for="descripcion" class="cols-sm-2 control-label">Comentario</label>
+                                <div class="cols-sm-10">
+                                    <div class="input-group">
+                                        <span class="input-group-addon"><i class="glyphicon glyphicon-file" aria-hidden="true"></i></span>
+                                        <textarea class="form-control" name="txtDescripcion" id="txtDescripcion"  placeholder="Escribe lo que piensas..."/></textarea>
+                                    </div>
+                                </div>
+                            </div>
+                       
+                            <div id="botones">
+                                <button type="submit" data-toggle="confirmation" name="btnGuardar" class="btn btn-warning fa fa-undo" data-btn-ok-label="Si" data-btn-ok-icon="glyphicon glyphicon-share-alt"
+                                data-btn-ok-class="btn-success" data-btn-cancel-label="No" data-btn-cancel-icon="glyphicon glyphicon-ban-circle" data-btn-cancel-class="btn-danger"
+                                data-title="¿Está seguro de modificar el registro?" data-content="¿Seguro de guardar el comentario?"> Guardar</button>
+                                <button type="submit" data-toggle="confirmation" name="btnEliminar" class="btn btn-danger fa fa-close" data-btn-ok-label="Si" data-btn-ok-icon="glyphicon glyphicon-share-alt"
+                                data-btn-ok-class="btn-success" data-btn-cancel-label="No" data-btn-cancel-icon="glyphicon glyphicon-ban-circle" data-btn-cancel-class="btn-danger"
+                                data-title="¿Está seguro de eliminar el registro?" data-content="Esto podría ser peligroso"> Eliminar</button>
+                                <button type="reset"  class="btn btn-primary fa fa-undo" title="Limpiar campos"></button>  
+                            </div>
+                            </div>
+                            <div class="col-md-2" ></div>
+                            
+                            
+                        </div>
+                    </div>         
+                </form> 
+                <!--End Formulario-->
+            </div>
+        </div>
+    </div><!--End modal-->
+            
         <div class="row main">
         <div class="container">
         <div id="page-content-wrapper">
@@ -139,8 +236,52 @@
                                     </td>
                                 </tr>
                                 <tr>
+                                    <td colspan="2"> Género :</td>
+                                    <td colspan="2"><h5><%=c.getGenero().getGenero() %></h5>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td colspan="2"> Nacionalidad :</td>
+                                    <td colspan="2"><h5><%=c.getNacionalidad()%></h5>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td colspan="2"> Género :</td>
+                                    <td colspan="2"><h5><%=c.getDepto().getNombreDepto() %></h5>
+                                    </td>
+                                </tr>
+                                <tr>
                                     <td colspan="2"> Habilidades :</td>
-                                    <td colspan="2"> <h5></h5>
+                                    <td colspan="2"> 
+                                      
+    
+            
+        <table class="table active " id="tblMostrar" name="tblMostrar">
+            <%
+             List<CvHabilidad> lso = cvh.listaCvhId(codigo);
+             for( CvHabilidad ch:lso){
+           %>
+           <tr>
+               <td><%= ch.getHabilidad().getNombreHabilidad() %></td>
+               <td><%= ch.getNivel().getNivel()%></td>
+               <td id="colAccion" style="width: 35%;">
+                   <form action="procesarSeguirUsuario">
+                       <div style="display: none;">
+                            <%= nombre = (String) session.getAttribute("user") %>
+                            <% codigod = crof.obtenerid(nombre);%>
+                            <% rol = crof.obtenerrol(codigod);%>
+                            <input type="text" name="codUsu" id="codUsu" value="<%= codigo%>">
+                            <input type="text" name="idrol" id="idrol" value="<%= rol%>">
+                        </div>
+                        <a   class="btn btn-primary" id="button" href="" data-toggle="modal" data-target="#habilidad" onclick="cargar(<%= ch.getValoracion()%>,'<%= ch.getHabilidad().getNombreHabilidad()%>','<%= ch.getNivel().getNivel()%>')" ><span class="glyphicon glyphicon-plus-sign"></span> Comentar</a>
+                         </form>
+               </td>
+           </tr>
+           <% } %>
+       </table>
+       
+       
+
                                     </td>
                                 </tr>
                                 <tr>
@@ -159,9 +300,6 @@
                 </div> 
                 <%}%>
           
-          </div>
-        </div>
-    </div>
                 </div>
         </div>
         <jsp:include page="plantilla/footer.jsp"/> 
